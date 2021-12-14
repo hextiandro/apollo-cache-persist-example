@@ -18,6 +18,14 @@ import {
 import {
   Colors, Header
 } from 'react-native/Libraries/NewAppScreen';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+
+// Initialize Apollo Client
+const client = new ApolloClient({
+  uri: 'localhost:4000/graphql',
+  cache: new InMemoryCache()
+});
 
 
 
@@ -29,39 +37,29 @@ const App: () => Node = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={styles.sectionContainer}>
-          <Text>Hola Asio!!!</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ApolloProvider client={client}>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}>
+          <View
+            style={styles.sectionContainer}>
+            <Text>Hola Asio!!!</Text>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ApolloProvider>
   );
 };
 
 const styles = StyleSheet.create({
   sectionContainer: {
-    display:"flex",
-    alignItems:'center',
+    display: "flex",
+    alignItems: 'center',
     marginTop: 32,
-    backgroundColor:'#fff',
+    backgroundColor: '#fff',
     paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
   },
 });
 
