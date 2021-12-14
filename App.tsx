@@ -6,48 +6,46 @@
  * @flow strict-local
  */
 
+import { ApolloProvider } from '@apollo/client';
 import type { Node } from 'react';
 import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet, Text, useColorScheme,
-  View
+  SafeAreaView, StatusBar,
+  StyleSheet, Text, useColorScheme
 } from 'react-native';
 import {
-  Colors, Header
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { useInitializeClient } from './src/hooks/useInitializeClient';
+import { CharacterListScreen } from './src/screens/CharacertListScreen';
 
 
-// Initialize Apollo Client
-const client = new ApolloClient({
-  uri: 'localhost:4000/graphql',
-  cache: new InMemoryCache()
-});
+// // Initialize Apollo Client
+// const client = new ApolloClient({
+//   uri: 'localhost:4000/graphql',
+//   cache: new InMemoryCache()
+// });
+
 
 
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const client = useInitializeClient();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  
+  if (!client) {
+    return <Text>Loading ...</Text>;
+  }
 
   return (
     <ApolloProvider client={client}>
       <SafeAreaView style={backgroundStyle}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <View
-            style={styles.sectionContainer}>
-            <Text>Hola Asio!!!</Text>
-          </View>
-        </ScrollView>
+        <CharacterListScreen />
       </SafeAreaView>
     </ApolloProvider>
   );
