@@ -1,0 +1,18 @@
+import styled from "@emotion/native";
+import React from "react";
+import { Text } from "react-native";
+
+const Wrapper = styled.View({
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fbfbfb",
+});
+
+export const HomeScreen: React.FC = () => {
+    return (
+        <Wrapper>
+            <Text>Bienvenido!!!</Text>
+        </Wrapper>
+    );
+};
